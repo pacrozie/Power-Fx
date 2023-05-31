@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class NamedFormulasTests : PowerFxTest
+    public class NamedFormulasTests
     {
         [Theory]
         [InlineData("Foo(x: Number): Number = Abs(x);")]

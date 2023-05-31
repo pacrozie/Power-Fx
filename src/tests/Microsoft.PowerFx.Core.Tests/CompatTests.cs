@@ -21,7 +21,7 @@ namespace Microsoft.PowerFx.Core.Tests
     // Test obselete functions, but still required for compat 
 #pragma warning disable SA1507 // Code should not contain multiple blank lines in a row
 #pragma warning disable CS0618 // Type or member is obsolete
-    public class CompatTests : PowerFxTest
+    public class CompatTests
     {
         [Fact]
         public void ConfigFunctionInfos()

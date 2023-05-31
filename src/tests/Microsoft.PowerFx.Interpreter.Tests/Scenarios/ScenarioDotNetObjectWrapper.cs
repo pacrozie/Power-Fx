@@ -12,7 +12,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
     // Demonstrate lazy dynamic marshalling 
-    public class ScenarioDotNetObjectWrapper : PowerFxTest
+    public class ScenarioDotNetObjectWrapper
     {        
         private class TestObj
         {

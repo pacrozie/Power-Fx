@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Core.Tests
 {
     // Tests for validating the TestRunner
-    public class TestRunnerTests : PowerFxTest
+    public class TestRunnerTests
     {
         [Fact]
         public void Test1()
@@ -20,7 +21,7 @@ namespace Microsoft.PowerFx.Core.Tests
             AddFile(runner, "File1.txt");
 
             var tests = runner.Tests.ToArray();
-            Assert.Equal(2, tests.Length);
+            Assert.Equal(2 * ExpressionTestCase.TestedLocales.Split(";").Length, tests.Length);
 
             // Ordered by how we see them in the file. 
             Assert.Equal("input1", tests[0].Input);
@@ -71,22 +72,22 @@ namespace Microsoft.PowerFx.Core.Tests
         {
             var mock = new MockErrorRunner
             {
-                _hook = (expr, setup) => FormulaValue.New(int.Parse(expr))
+                _hook = (expr, setup, culture) => FormulaValue.New(int.Parse(expr))
             };
 
             // Edit test directly 
             var runner = new TestRunner(mock);
-            runner.Tests.Add(new TestCase
+            runner.Tests.Add(new TestCase("en-US")
             {
                 Input = "1",
                 Expected = "1"
             });
-            runner.Tests.Add(new TestCase
+            runner.Tests.Add(new TestCase("en-US")
             {
                 Input = "2",
                 Expected = "1"
             });
-            runner.Tests.Add(new TestCase
+            runner.Tests.Add(new TestCase("en-US")
             {
                 Input = "2",
                 Expected = "2"
@@ -112,17 +113,17 @@ namespace Microsoft.PowerFx.Core.Tests
         {
             var mock = new MockErrorRunner
             {
-                _hook = (expr, setup) => FormulaValue.New(double.Parse(expr))
+                _hook = (expr, setup, culture) => FormulaValue.New(double.Parse(expr))
             };
 
             // do both orders. 
             var runner = new TestRunner(mock);
-            runner.Tests.Add(new TestCase
+            runner.Tests.Add(new TestCase("en-US")
             {
                 Input = a,
                 Expected = b
             });
-            runner.Tests.Add(new TestCase
+            runner.Tests.Add(new TestCase("en-US")
             {
                 Input = b,
                 Expected = a
@@ -178,27 +179,27 @@ namespace Microsoft.PowerFx.Core.Tests
 
         private class MockRunner : BaseRunner
         {
-            public Func<string, string, FormulaValue> _hook;
+            public Func<string, string, CultureInfo, FormulaValue> _hook;
 
-            public Func<string, string, RunResult> _hook2;
+            public Func<string, string, CultureInfo, RunResult> _hook2;
 
-            protected override Task<RunResult> RunAsyncInternal(string expr, string setupHandlerName = null)
+            protected override Task<RunResult> RunAsyncInternal(string expr, string setupHandlerName, CultureInfo culture)
             {
                 if (_hook != null)
                 {
-                    return Task.FromResult(new RunResult(_hook(expr, setupHandlerName)));
+                    return Task.FromResult(new RunResult(_hook(expr, setupHandlerName, culture)));
                 }
 
-                return Task.FromResult(_hook2(expr, setupHandlerName));
+                return Task.FromResult(_hook2(expr, setupHandlerName, culture));
             }
         }
 
         [Fact]
         public void TestRunnerSuccess()
         {
-            var runner = new MockRunner { _hook = (expr, setup) => FormulaValue.New(1) };
+            var runner = new MockRunner { _hook = (expr, setup, culture) => FormulaValue.New(1) };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "1"
             };
@@ -210,9 +211,9 @@ namespace Microsoft.PowerFx.Core.Tests
         [Fact]
         public void TestRunnerFail()
         {
-            var runner = new MockRunner { _hook = (expr, setup) => FormulaValue.New(1) };
+            var runner = new MockRunner { _hook = (expr, setup, culture) => FormulaValue.New(1) };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "2" // Mismatch!
             };
@@ -224,9 +225,9 @@ namespace Microsoft.PowerFx.Core.Tests
         [Fact]
         public void TestRunnerNumericTolerance()
         {
-            var runner = new MockRunner { _hook = (expr, setup) => FormulaValue.New(1.23456789) };
+            var runner = new MockRunner { _hook = (expr, setup, culture) => FormulaValue.New(1.23456789) };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "1.2345654" // difference less than 1e-5
             };
@@ -234,7 +235,7 @@ namespace Microsoft.PowerFx.Core.Tests
 
             Assert.Equal(TestResult.Pass, result);
 
-            test = new TestCase
+            test = new TestCase("en-US")
             {
                 Expected = "1.23455" // difference more than 1e-5
             };
@@ -249,7 +250,7 @@ namespace Microsoft.PowerFx.Core.Tests
             var runner = new MockRunner();
 
             // #SKIP won't even call runner.
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "#SKIP"
             };
@@ -263,9 +264,9 @@ namespace Microsoft.PowerFx.Core.Tests
         [Fact]
         public void TestRunnerUnsupported()
         {
-            var runner = new MockRunner { _hook2 = (expr, setup) => new RunResult { UnsupportedReason = "unsupported" } };
+            var runner = new MockRunner { _hook2 = (expr, setup, culture) => new RunResult { UnsupportedReason = "unsupported" } };
             {
-                var test = new TestCase
+                var test = new TestCase("en-US")
                 {
                     Expected = "1",
                     OverrideFrom = "yes"
@@ -277,7 +278,7 @@ namespace Microsoft.PowerFx.Core.Tests
             }
 
             {
-                var test = new TestCase
+                var test = new TestCase("en-US")
                 {
                     Expected = "1",
                 };
@@ -289,7 +290,7 @@ namespace Microsoft.PowerFx.Core.Tests
 
             {
                 // Unsupported can't skip error. We should match the error. 
-                var test = new TestCase
+                var test = new TestCase("en-US")
                 {
                     Expected = "Error({Kind:ErrorKind.Custom})",
                 };
@@ -302,9 +303,9 @@ namespace Microsoft.PowerFx.Core.Tests
         [Fact]
         public void TestRunnerError()
         {
-            var runner = new MockRunner { _hook = (expr, setup) => _errorValue /* error */ };
+            var runner = new MockRunner { _hook = (expr, setup, culture) => _errorValue /* error */ };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "Error()"
             };
@@ -313,7 +314,7 @@ namespace Microsoft.PowerFx.Core.Tests
             Assert.Equal(TestResult.Pass, result);
 
             // It's a failure if #error casesucceeds. 
-            runner._hook = (expr, setup) => FormulaValue.New(1); // success
+            runner._hook = (expr, setup, culture) => FormulaValue.New(1); // success
             (result, message) = runner.RunTestCase(test);
 
             Assert.Equal(TestResult.Fail, result);
@@ -324,19 +325,19 @@ namespace Microsoft.PowerFx.Core.Tests
         {
             var errorValue = new ErrorValue(IR.IRContext.NotInSource(FormulaType.Number), new ExpressionError { Kind = ErrorKind.InvalidFunctionUsage });
 
-            var runner = new MockRunner
+            var runner = new MockRunner()
             {
-                _hook = (expr, setup) => errorValue // error
+                _hook = (expr, setup, culture) => errorValue // error
             };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "Error({Kind:ErrorKind.InvalidFunctionUsage})" // validation by enum name
             };
             var (result, message) = runner.RunTestCase(test);
             Assert.Equal(TestResult.Pass, result);
 
-            test = new TestCase
+            test = new TestCase("en-US")
             {
                 Expected = "Error({Kind:ErrorKind.Div0})" // // failure if error kind does not match
             };
@@ -348,9 +349,9 @@ namespace Microsoft.PowerFx.Core.Tests
         public void TestRunnerCompilerError()
         {
             // Compiler error is a throw from Check()
-            var runner = new MockRunner { _hook2 = (expr, setup) => RunResult.FromError("X") };
+            var runner = new MockRunner { _hook2 = (expr, setup, culture) => RunResult.FromError("X") };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Expected = "Errors: Error: X"
             };
@@ -359,7 +360,7 @@ namespace Microsoft.PowerFx.Core.Tests
             Assert.Equal(TestResult.Pass, result);
 
             // It's a failure if we have the wrong error
-            runner._hook2 = (expr, setup) => RunResult.FromError("Y");
+            runner._hook2 = (expr, setup, culture) => RunResult.FromError("Y");
             (result, message) = runner.RunTestCase(test);
 
             Assert.Equal(TestResult.Fail, result);
@@ -376,9 +377,9 @@ namespace Microsoft.PowerFx.Core.Tests
         {
             const string handlerName = "myhandler";
 
-            var runner = new MockRunner
+            var runner = new MockRunner()
             {
-                _hook = (expr, setup) =>
+                _hook = (expr, setup, culture) =>
                 {
                     Assert.Equal(setup, handlerName);
 
@@ -386,7 +387,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 }
             };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 SetupHandlerName = handlerName,
                 Expected = "1"
@@ -400,9 +401,9 @@ namespace Microsoft.PowerFx.Core.Tests
         // Override IsError
         private class MockErrorRunner : MockRunner
         {
-            protected override Task<RunResult> RunAsyncInternal(string expr, string setupHandlerName = null)
+            protected override Task<RunResult> RunAsyncInternal(string expr, string setupHandlerName, CultureInfo culture)
             {
-                return Task.FromResult(new RunResult(_hook(expr, setupHandlerName)));
+                return Task.FromResult(new RunResult(_hook(expr, setupHandlerName, culture)));
             }
 
             public Func<FormulaValue, bool> _isError;
@@ -424,7 +425,7 @@ namespace Microsoft.PowerFx.Core.Tests
             // Test override BaseRunner.IsError
             var runner = new MockErrorRunner
             {
-                _hook = (expr, setup) =>
+                _hook = (expr, setup, culture) =>
                     expr switch
                     {
                         "1" => FormulaValue.New(1),
@@ -434,7 +435,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 _isError = (value) => value is NumberValue
             };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Input = "1",
                 Expected = "Error({Kind:ErrorKind.Custom})"
@@ -456,7 +457,7 @@ namespace Microsoft.PowerFx.Core.Tests
             // Test override BaseRunner.IsError
             var runner = new MockErrorRunner
             {
-                _hook = (expr, setup) =>
+                _hook = (expr, setup, culture) =>
                     expr switch
                     {
                         "1" => FormulaValue.New(1),
@@ -466,7 +467,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 _isError = (value) => value is NumberValue
             };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Input = "1",
                 Expected = "Error({Kind:ErrorKind.Custom})"
@@ -486,7 +487,7 @@ namespace Microsoft.PowerFx.Core.Tests
             // Test override BaseRunner.IsError
             var runner = new MockErrorRunner
             {
-                _hook = (expr, setup) =>
+                _hook = (expr, setup, culture) =>
                     expr switch
                     {
                         "1" => FormulaValue.New(1),
@@ -496,7 +497,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 _isError = (value) => throw new InvalidOperationException($"Should call IsError() follow since .txt didn't have error")
             };
 
-            var test = new TestCase
+            var test = new TestCase("en-US")
             {
                 Input = "1",
                 Expected = "1" // don't expect error

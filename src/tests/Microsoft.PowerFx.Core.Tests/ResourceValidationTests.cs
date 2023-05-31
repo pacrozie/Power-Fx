@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class ResourceValidationTests : PowerFxTest
+    public class ResourceValidationTests
     {       
         [Fact]
         public void ResourceLoadsOnlyRequiredLocales()

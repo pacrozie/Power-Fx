@@ -15,7 +15,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Tests
 {
     // Simulate calling basic REST services, such as ASP.Net + Swashbuckle. 
-    public class BasicRestTests : PowerFxTest
+    public class BasicRestTests
     {
         // Must set the BaseAddress on an httpClient, even if we don't actually use it. 
         // All the Send() methods will enforce this. 

@@ -13,7 +13,7 @@ using static Microsoft.PowerFx.Tests.BindingEngineTests;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class GetTokensUtilsTest : PowerFxTest
+    public class GetTokensUtilsTest
     {
         private static EditorContextScope FromJson(Engine engine, string json, ParserOptions options = null)
         {

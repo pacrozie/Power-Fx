@@ -22,7 +22,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class BinderUtilTests : PowerFxTest
+    public class BinderUtilTests
     {
         [Theory]
         [InlineData("ThisRecord.Field2", "ThisRecord.Field2")]

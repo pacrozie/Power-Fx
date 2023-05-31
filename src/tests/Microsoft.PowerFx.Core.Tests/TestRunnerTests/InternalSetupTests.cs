@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class InternalSetupTests : PowerFxTest
+    public class InternalSetupTests
     {
         [Fact]
         public void InternalSetup_Parse_Null()

@@ -147,9 +147,12 @@ namespace Microsoft.PowerFx.Core.Tests
 
         public void AddFile(Dictionary<string, bool> setup, IEnumerable<string> files)
         {
-            foreach (var file in files)
+            foreach (string locale in ExpressionTestCase.TestedLocales.Split(";"))
             {
-                AddFile(setup, file);
+                foreach (var file in files)
+                {
+                    AddFile(setup, file, locale);
+                }
             }
         }
 
@@ -176,18 +179,16 @@ namespace Microsoft.PowerFx.Core.Tests
             }
         }
 
-        public void AddFile(Dictionary<string, bool> setup, string thisFile)
+        public void AddFile(Dictionary<string, bool> setup, string thisFile, string locale)
         {
             thisFile = Path.GetFullPath(thisFile, TestRoot);
-
-            var lines = File.ReadAllLines(thisFile);
+            string[] lines = File.ReadAllLines(thisFile);
 
             // Skip blanks or "comments"
             // >> indicates input expression
             // next line is expected result.
 
-            Exception ParseError(int lineNumber, string message) => new InvalidOperationException(
-                $"{Path.GetFileName(thisFile)} {lineNumber}: {message}");
+            Exception ParseError(int lineNumber, string message) => new InvalidOperationException($"{Path.GetFileName(thisFile)} {lineNumber}: {message}");
 
             TestCase test = null;
 
@@ -290,12 +291,12 @@ namespace Microsoft.PowerFx.Core.Tests
                     }
 
                     line = line.Substring(2).Trim();
-                    test = new TestCase
+                    test = new TestCase(locale)
                     {
                         Input = line,
                         SourceLine = i + 1, // 1-based
                         SourceFile = thisFile,
-                        SetupHandlerName = fileSetup
+                        SetupHandlerName = fileSetup,                        
                     };
                     continue;
                 }
@@ -323,7 +324,9 @@ namespace Microsoft.PowerFx.Core.Tests
                     if (_keyToTests.TryGetValue(key, out var existingTest))
                     {
                         // Must be in different sources
-                        if (existingTest.SourceFile == test.SourceFile && existingTest.SetupHandlerName == test.SetupHandlerName)
+                        if (existingTest.SourceFile == test.SourceFile && 
+                            existingTest.SetupHandlerName == test.SetupHandlerName && 
+                            existingTest.Locale == test.Locale)
                         {
                             duplicateTests.Add($"Duplicate test cases in {Path.GetFileName(test.SourceFile)} on line {test.SourceLine} and {existingTest.SourceLine}");
                         }

@@ -20,7 +20,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class DisplayNameTests : PowerFxTest
+    public class DisplayNameTests
     {
         public class LazyRecordType : RecordType
         {

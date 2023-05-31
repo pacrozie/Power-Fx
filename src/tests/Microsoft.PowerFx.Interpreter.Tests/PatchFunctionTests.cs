@@ -23,7 +23,7 @@ using static Microsoft.PowerFx.Core.Localization.TexlStrings;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class PatchFunctionTests : PowerFxTest
+    public class PatchFunctionTests
     {
         private readonly ParserOptions _opts = new ParserOptions { AllowsSideEffects = true };
 

@@ -14,7 +14,7 @@ using static Microsoft.PowerFx.Connectors.Tests.OpenApiHelperFunctions;
 
 namespace Microsoft.PowerFx.Connectors.Tests
 {
-    public class OpenApiFormUrlEncoderTests : PowerFxTest
+    public class OpenApiFormUrlEncoderTests
     {
         [Fact]
         public void UrlEncoderSerializer_Empty()

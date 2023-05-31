@@ -26,13 +26,15 @@ namespace Microsoft.PowerFx.Core.Tests
         private readonly string _filePathSpecific;
         private readonly string _engineName;
         private readonly Dictionary<string, bool> _setup;
+        private readonly string[] _locales;
 
-        public TxtFileDataAttribute(string filePathCommon, string filePathSpecific, string engineName, string setup)
+        public TxtFileDataAttribute(string filePathCommon, string filePathSpecific, string engineName, string setup, string locales)
         {
             _filePathCommon = filePathCommon;
             _filePathSpecific = filePathSpecific;
             _engineName = engineName;
             _setup = TestRunner.ParseSetupString(setup);
+            _locales = locales.Split(";", StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
@@ -57,13 +59,15 @@ namespace Microsoft.PowerFx.Core.Tests
                     {
                         var allFiles = Directory.EnumerateFiles(GetDefaultTestDir(dir));
 
-                        foreach (var file in allFiles)
+                        foreach (string locale in _locales)
                         {
-                            // Skip .md files
-
-                            if (file.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase))
+                            foreach (string file in allFiles)
                             {
-                                parser.AddFile(_setup, file);
+                                // Skip .md files
+                                if (file.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    parser.AddFile(_setup, file, locale);
+                                }
                             }
                         }
                     }

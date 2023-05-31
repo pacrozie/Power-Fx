@@ -14,7 +14,7 @@ namespace Microsoft.PowerFx.Core.Tests
     /// <summary>
     /// TODO.
     /// </summary>
-    internal class ImmutabilityTests : PowerFxTest
+    internal class ImmutabilityTests
     {
         // Include non-public types
         // Include non-public properties!

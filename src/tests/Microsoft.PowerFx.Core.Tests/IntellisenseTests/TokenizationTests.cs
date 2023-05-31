@@ -17,7 +17,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests.IntellisenseTests
 {
-    public class TokenizationTests : PowerFxTest
+    public class TokenizationTests
     {
         [Theory]
         [InlineData("gallery1", 1, 0, "gallery1", 0, 8, TokenType.Control, false)]

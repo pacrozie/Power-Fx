@@ -11,7 +11,7 @@ using static Microsoft.PowerFx.Core.Parser.TexlParser;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public sealed class FormatterTests : PowerFxTest
+    public sealed class FormatterTests
     {
         [Theory]
         [InlineData(

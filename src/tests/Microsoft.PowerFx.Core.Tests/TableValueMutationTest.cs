@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class TableValueMutationTest : PowerFxTest
+    public class TableValueMutationTest
     {
         [Fact]
         public async Task AppendRecordTest()

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Connectors.Tests
 {
-    public class OpenApiExtensionTests : PowerFxTest
+    public class OpenApiExtensionTests
     {
         [Theory]
         [InlineData("https://www.foo.bar", "www.foo.bar", "/")]

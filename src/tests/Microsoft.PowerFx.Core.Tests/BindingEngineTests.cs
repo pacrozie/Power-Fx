@@ -17,7 +17,7 @@ using Xunit.Sdk;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class BindingEngineTests : PowerFxTest
+    public class BindingEngineTests
     {
         [Fact]
         public void CheckSuccess()

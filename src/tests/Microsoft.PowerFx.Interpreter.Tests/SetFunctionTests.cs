@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class SetFunctionTests : PowerFxTest
+    public class SetFunctionTests
     {
         private readonly ParserOptions _opts = new ParserOptions { AllowsSideEffects = true };
 

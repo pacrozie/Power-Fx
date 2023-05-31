@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class MutationFunctionsTests : PowerFxTest
+    public class MutationFunctionsTests
     {
         private readonly ParserOptions _opts = new ParserOptions { AllowsSideEffects = true };
 

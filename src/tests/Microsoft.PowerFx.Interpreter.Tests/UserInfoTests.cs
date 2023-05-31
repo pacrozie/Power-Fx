@@ -19,7 +19,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class UserInfoTests : PowerFxTest
+    public class UserInfoTests
     {
         [Fact]
         public async Task UserInfoObjectTest()

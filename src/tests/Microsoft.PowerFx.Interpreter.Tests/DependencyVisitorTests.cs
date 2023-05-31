@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class DependencyFinderTests : PowerFxTest
+    public class DependencyFinderTests
     {
         [Theory]
         [InlineData("A + 3 + B + B", "A,B")]

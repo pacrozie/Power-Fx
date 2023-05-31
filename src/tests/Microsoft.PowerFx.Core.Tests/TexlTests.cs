@@ -29,7 +29,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class TexlTests : PowerFxTest
+    public class TexlTests
     {
         private readonly CultureInfo _defaultLocale = new ("en-US");
 

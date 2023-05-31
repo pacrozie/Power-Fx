@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class ParseTests : PowerFxTest
+    public class ParseTests
     {
         [Theory]
         [InlineData("0")]

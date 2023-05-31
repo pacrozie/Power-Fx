@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.PowerFx.Core.IR;
@@ -14,7 +15,7 @@ using static Microsoft.PowerFx.Interpreter.Tests.ExpressionEvaluationTests;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class FileExpressionEvaluationTests : PowerFxTest
+    public class FileExpressionEvaluationTests
     {
         // File expression tests are run multiple times for the different ways a host can use Power Fx.
         // 
@@ -26,9 +27,9 @@ namespace Microsoft.PowerFx.Interpreter.Tests
         //    back compat converters depend on the feature mix being the same as when the original app was serialized.
         //
         // See the README.md in the ExpressionTestCases directory for more details.
-
+       
         [InterpreterTheory]
-        [TxtFileData("ExpressionTestCases", "InterpreterExpressionTestCases", nameof(InterpreterRunner), "TableSyntaxDoesntWrapRecords,ConsistentOneColumnTableResult,NumberIsFloat")]
+        [TxtFileData("ExpressionTestCases", "InterpreterExpressionTestCases", nameof(InterpreterRunner), "TableSyntaxDoesntWrapRecords,ConsistentOneColumnTableResult,NumberIsFloat", ExpressionTestCase.TestedLocales)]
         public void Canvas_Float(ExpressionTestCase testCase)
         {
             // current default features in Canvas abc
@@ -42,14 +43,14 @@ namespace Microsoft.PowerFx.Interpreter.Tests
         }
 
         [InterpreterTheory]
-        [TxtFileData("ExpressionTestCases", "InterpreterExpressionTestCases", nameof(InterpreterRunner), "PowerFxV1,disable:NumberIsFloat")]
+        [TxtFileData("ExpressionTestCases", "InterpreterExpressionTestCases", nameof(InterpreterRunner), "PowerFxV1,disable:NumberIsFloat", ExpressionTestCase.TestedLocales)]
         public void V1_Decimal(ExpressionTestCase testCase)
         {
             RunExpressionTestCase(testCase, Features.PowerFxV1, numberIsFloat: false);
         }
 
         [InterpreterTheory]
-        [TxtFileData("ExpressionTestCases", "InterpreterExpressionTestCases", nameof(InterpreterRunner), "PowerFxV1,NumberIsFloat")]
+        [TxtFileData("ExpressionTestCases", "InterpreterExpressionTestCases", nameof(InterpreterRunner), "PowerFxV1,NumberIsFloat", ExpressionTestCase.TestedLocales)]
         public void V1_Float(ExpressionTestCase testCase)
         {
             RunExpressionTestCase(testCase, Features.PowerFxV1, numberIsFloat: true);
@@ -151,8 +152,8 @@ namespace Microsoft.PowerFx.Interpreter.Tests
         [Fact]
         public void ScanForTxtParseErrors()
         {
-            var method = GetType().GetMethod(nameof(Canvas_Float));
-            var attr = (TxtFileDataAttribute)method.GetCustomAttributes(typeof(TxtFileDataAttribute), false)[0];
+            MethodInfo method = GetType().GetMethod(nameof(Canvas_Float));
+            TxtFileDataAttribute attr = (TxtFileDataAttribute)method.GetCustomAttributes(typeof(TxtFileDataAttribute), false)[0];
 
             // Verify this runs without throwing an exception.
             var list = attr.GetData(method);

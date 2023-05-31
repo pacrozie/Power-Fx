@@ -11,7 +11,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
     // Demonstrate the ability to override the behavior when accessing undefined fields.
-    public class CustomRecordTypeWithUndefinedFields : PowerFxTest
+    public class CustomRecordTypeWithUndefinedFields
     {
         private readonly RecordType _originalRecordType;
         private readonly RecordType _customRecordType;

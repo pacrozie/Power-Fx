@@ -23,7 +23,7 @@ using static Microsoft.PowerFx.Core.Localization.TexlStrings;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class RemoveFunctionTests : PowerFxTest
+    public class RemoveFunctionTests
     {
         [Fact]
         public async Task RemoveRecordTest()

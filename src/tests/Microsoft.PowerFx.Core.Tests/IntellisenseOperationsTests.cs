@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class IntellisenseOperationsTests : PowerFxTest
+    public class IntellisenseOperationsTests
     {
         [Fact]
         public void CheckIf()

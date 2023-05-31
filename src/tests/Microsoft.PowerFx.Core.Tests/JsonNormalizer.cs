@@ -14,7 +14,7 @@ namespace Microsoft.PowerFx.Tests
     // From: https://github.com/microsoft/PowerApps-Language-Tooling/blob/master/src/PAModel/Utility/JsonNormalizer.cs
     // Write out Json in a normalized sorted order. 
     // Orders properties, whitespace/indenting, etc. 
-    public class JsonNormalizer : PowerFxTest
+    public class JsonNormalizer
     {
         public static string Normalize(string jsonStr)
         {

@@ -26,7 +26,7 @@ using static Microsoft.PowerFx.Tests.BindingEngineTests;
 
 namespace Microsoft.PowerFx.Tests.LanguageServiceProtocol.Tests
 {
-    public class LanguageServerTests : PowerFxTest
+    public class LanguageServerTests
     {
         protected static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
         {

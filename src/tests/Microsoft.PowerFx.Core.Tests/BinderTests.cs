@@ -30,7 +30,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class BinderTests : PowerFxTest
+    public class BinderTests
     {
         [Theory]
         [InlineData("x")]

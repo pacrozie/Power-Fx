@@ -24,7 +24,7 @@ using static Microsoft.PowerFx.Core.Localization.TexlStrings;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class ClearFunctionTests : PowerFxTest
+    public class ClearFunctionTests
     {
         private readonly ParserOptions _opts = new ParserOptions { AllowsSideEffects = true };
 

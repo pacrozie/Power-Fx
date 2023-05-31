@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -100,8 +101,9 @@ namespace Microsoft.PowerFx.Core.Tests
         /// </summary>
         /// <param name="expr">PowerFx expression.</param>
         /// <param name="setupHandlerName">Optional name of a setup handler to run. Throws SetupHandlerNotImplemented if not found.</param>
+        /// <param name="culture">Culture.</param>
         /// <returns>Result of evaluating Expr.</returns>
-        protected abstract Task<RunResult> RunAsyncInternal(string expr, string setupHandlerName = null);
+        protected abstract Task<RunResult> RunAsyncInternal(string expr, string setupHandlerName, CultureInfo culture);
 
         /// <summary>
         /// Returns (Pass,Fail,Skip) and a status message.
@@ -155,13 +157,13 @@ namespace Microsoft.PowerFx.Core.Tests
         //   true
         private async Task<(TestResult, string)> RunErrorCaseAsync(TestCase testCase)
         {
-            var case2 = new TestCase
+            var case2 = new TestCase(testCase.Locale)
             {
                 SetupHandlerName = testCase.SetupHandlerName,
                 SourceLine = testCase.SourceLine,
                 SourceFile = testCase.SourceFile,
                 Input = $"IsError({testCase.Input})",
-                Expected = "true"
+                Expected = "true"                
             };
 
             var (result, msg) = await RunAsync2(case2).ConfigureAwait(false);
@@ -190,7 +192,7 @@ namespace Microsoft.PowerFx.Core.Tests
 
             try
             {
-                runResult = await RunAsyncInternal(testCase.Input, testCase.SetupHandlerName).ConfigureAwait(false);
+                runResult = await RunAsyncInternal(testCase.Input, testCase.SetupHandlerName, testCase.Culture).ConfigureAwait(false);
                 result = runResult.Value;
                 originalResult = runResult.OriginalValue;
 

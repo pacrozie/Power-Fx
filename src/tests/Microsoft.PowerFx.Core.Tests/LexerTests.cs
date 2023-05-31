@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public sealed class LexerTests : PowerFxTest
+    public sealed class LexerTests
     {
         private void AssertTokens(string value, params TokKind[] tokKinds)
         {

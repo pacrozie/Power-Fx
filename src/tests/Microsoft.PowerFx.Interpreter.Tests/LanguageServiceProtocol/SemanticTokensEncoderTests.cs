@@ -19,7 +19,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests.LanguageServiceProtocol
 {
-    public class SemanticTokensEncoderTests : PowerFxTest
+    public class SemanticTokensEncoderTests
     {
         private static readonly IDictionary<TokenType, uint> EncodedTokens = new Dictionary<TokenType, uint>
         {

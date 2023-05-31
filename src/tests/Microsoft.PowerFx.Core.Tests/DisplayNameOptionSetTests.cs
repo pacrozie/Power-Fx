@@ -13,7 +13,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
     // OptionSets are only in the interpreter. If we move to core, we can move these tests to core too.
-    public class DisplayNameOptionSetTests : PowerFxTest
+    public class DisplayNameOptionSetTests
     {
         [Theory]
         [InlineData("OptionSet.Option1 <> OptionSet.Option2", "OptionSet.option_1 <> OptionSet.option_2", false, "")]

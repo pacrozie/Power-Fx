@@ -16,7 +16,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Tests
 {
     // Simulate calling PowerPlatform connectors.
-    public class PowerPlatformConnectorTests : PowerFxTest
+    public class PowerPlatformConnectorTests
     {
         // Compare strings, ignoring \r differences that can happen across Operating systems. 
         private static void AssertEqual(string expected, string actual)

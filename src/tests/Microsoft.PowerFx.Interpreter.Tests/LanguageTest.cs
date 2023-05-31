@@ -15,7 +15,7 @@ using static Microsoft.PowerFx.Functions.Library;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class LanguageTest : PowerFxTest
+    public class LanguageTest
     {
         private static CultureInfo _defaultCulture;
 

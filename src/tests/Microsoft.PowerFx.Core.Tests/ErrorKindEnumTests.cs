@@ -24,7 +24,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class ErrorKindEnumTests : PowerFxTest
+    public class ErrorKindEnumTests
     {
         [Fact]
         public void ErrorKindEnumSyncTest()

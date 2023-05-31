@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class CacheTests : PowerFxTest
+    public class CacheTests
     {
         private readonly ICachingHttpClient _cache = new CachingHttpClient();
 

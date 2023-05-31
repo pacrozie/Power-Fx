@@ -14,32 +14,43 @@ namespace Microsoft.PowerFx.Core.Tests
     {
         private readonly string _engineName = null;
 
+        // List of locales to run the tests against.
+        public const string TestedLocales = "en-US;fr-FR;de-DE;pt-BR;ja-JP";
+
         // Normally null. Set if the test discovery infrastructure needs to send a notice to the test runner. 
         public string FailMessage;
 
-        public ExpressionTestCase()
+        public ExpressionTestCase() 
+            : this("en-US")
+        {
+            throw new NotImplementedException();
+        }
+
+        public ExpressionTestCase(string locale)
+            : base(locale)
         {
             _engineName = "-";
         }
 
-        public ExpressionTestCase(string engineName)
+        public ExpressionTestCase(string engineName, string locale)
+            : base(locale)
         {
             _engineName = engineName;
         }
 
         public ExpressionTestCase(string engineName, TestCase test)
-            : this(engineName)
+            : this(engineName, test.Locale)
         {
             Input = test.Input;
             Expected = test.Expected;
             SourceFile = test.SourceFile;
             SourceLine = test.SourceLine;
-            SetupHandlerName = test.SetupHandlerName;
+            SetupHandlerName = test.SetupHandlerName;            
         }
 
         public static ExpressionTestCase Fail(string message)
         {
-            return new ExpressionTestCase
+            return new ExpressionTestCase("en-US")
             {
                 FailMessage = message
             };
@@ -47,7 +58,7 @@ namespace Microsoft.PowerFx.Core.Tests
 
         public override string ToString()
         {
-            var str = $"{Path.GetFileName(SourceFile)} : {SourceLine.ToString("000")} - {Input} = {Expected}";
+            var str = $"{Path.GetFileName(SourceFile)} : [{base.Culture.Name}] {SourceLine.ToString("000")} - {Input} = {Expected}";
 
             if (!string.IsNullOrEmpty(SetupHandlerName))
             {
@@ -67,6 +78,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 SourceLine = info.GetValue<int>("sourceLine");
                 SetupHandlerName = info.GetValue<string>("setupHandlerName");
                 FailMessage = info.GetValue<string>("failMessage");
+                Locale = info.GetValue<string>("locale");
             }
             catch (Exception e)
             {
@@ -82,6 +94,7 @@ namespace Microsoft.PowerFx.Core.Tests
             info.AddValue("sourceLine", SourceLine, typeof(int));
             info.AddValue("setupHandlerName", SetupHandlerName, typeof(string));
             info.AddValue("failMessage", FailMessage, typeof(string));
+            info.AddValue("locale", Locale, typeof(string));
         }
     }
 }

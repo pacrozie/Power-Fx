@@ -15,7 +15,7 @@ namespace Microsoft.PowerFx.Tests.IntellisenseTests
     /// <summary>
     /// Provides methods that may be used by Intellisense tests.
     /// </summary>
-    public class IntellisenseTestBase : PowerFxTest
+    public class IntellisenseTestBase
     {
         /// <summary>
         /// This method receives a test case string, along with an optional context type that defines the valid

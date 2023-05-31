@@ -22,7 +22,7 @@ using static Microsoft.PowerFx.Core.Localization.TexlStrings;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class ErrorFunctionTests : PowerFxTest
+    public class ErrorFunctionTests
     {
         [Fact]
         public async Task AllErrorKindsHaveDefaultMessages()

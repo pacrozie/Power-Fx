@@ -18,7 +18,7 @@ using static Microsoft.PowerFx.Core.Localization.TexlStrings;
 namespace Microsoft.PowerFx.Tests
 {
     // Test async eval features. 
-    public class RecalcEngineAsyncTests : PowerFxTest
+    public class RecalcEngineAsyncTests
     {
         // Intentionally trivial async function that runs synchronously. 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously

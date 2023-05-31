@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class IdentTests : PowerFxTest
+    public class IdentTests
     {
         [Theory]
         [InlineData("x")]

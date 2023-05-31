@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class TimeTests : PowerFxTest
+    public class TimeTests
     {
         public TimeTests()
             : base()

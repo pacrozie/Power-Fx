@@ -24,7 +24,7 @@ using Xunit.Sdk;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class RecalcEngineTests : PowerFxTest
+    public class RecalcEngineTests
     {
         [Fact]
         public void PublicSurfaceTests()

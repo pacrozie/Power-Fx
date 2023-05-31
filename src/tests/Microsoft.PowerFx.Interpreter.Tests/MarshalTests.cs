@@ -15,7 +15,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Tests
 {
     // Test marshaling between C# objects and Power Fx values. 
-    public class MarshalTests : PowerFxTest
+    public class MarshalTests
     {
         // Do a trivial marshal.
         [Fact]

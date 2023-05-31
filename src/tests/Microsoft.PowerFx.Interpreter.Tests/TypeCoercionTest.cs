@@ -18,7 +18,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Tests
 {
     // Test type coercion from FormualValue to target type 
-    public class TypeCoercionTest : PowerFxTest
+    public class TypeCoercionTest
     {
         // From number to other types
         [Theory]

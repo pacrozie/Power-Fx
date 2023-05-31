@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Connectors.Tests
 {
-    public class ODataDelegationTests : PowerFxTest
+    public class ODataDelegationTests
     {
         private static readonly Uri _uriBase = new Uri("https://contoso.com/api/list");
 

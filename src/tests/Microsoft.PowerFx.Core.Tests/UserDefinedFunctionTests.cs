@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class UserDefinedFunctionTests : PowerFxTest
+    public class UserDefinedFunctionTests
     {
         private bool ProcessUserDefinitions(string script, out UserDefinitionResult userDefinitionResult)
         {

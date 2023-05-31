@@ -12,7 +12,7 @@ using Xunit.Sdk;
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
     // Demonstrate mutation example using IUntypedObject
-    public class ScenarioMutation : PowerFxTest
+    public class ScenarioMutation
     {       
         [Fact]
         public void MutabilityTest()

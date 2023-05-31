@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class CharacterUtilsTest : PowerFxTest
+    public class CharacterUtilsTest
     {
         [Theory]
         [InlineData("test", "test")]

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class DisplayNameUtilTests : PowerFxTest
+    public class DisplayNameUtilTests
     {
         [Theory]
         [InlineData(new string[] { "a", "b", "c" }, new string[] { "a", "b", "c" }, new string[] { "a", "b", "c" })] // Same logical/display

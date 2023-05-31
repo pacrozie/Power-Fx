@@ -12,7 +12,7 @@ using static Microsoft.PowerFx.Connectors.Tests.OpenApiHelperFunctions;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class OpenApiJsonSerializerTests : PowerFxTest
+    public class OpenApiJsonSerializerTests
     {            
         [Fact]
         public void JsonSerializer_Empty()

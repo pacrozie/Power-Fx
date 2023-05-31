@@ -12,7 +12,7 @@ using CallNode = Microsoft.PowerFx.Core.IR.Nodes.CallNode;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class IRTranslatorTests : PowerFxTest
+    public class IRTranslatorTests
     {
         public IRTranslatorTests()
             : base()

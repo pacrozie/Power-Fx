@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class PowerPlatformConnectorClientTests : PowerFxTest
+    public class PowerPlatformConnectorClientTests
     {
         private const string TestEndpoint = "localhost:1234";
         private const string TestEnvironmentId = "2d8a766b-cbbf-4975-a8fe-550b2152795b";

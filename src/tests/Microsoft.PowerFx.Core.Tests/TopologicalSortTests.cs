@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
-    public class TopologicalSortTests : PowerFxTest
+    public class TopologicalSortTests
     {
         [Fact]
         public void BasicOrderTest()

@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class TextDateTimeToUTCTests : PowerFxTest
+    public class TextDateTimeToUTCTests
     {
         [Theory]
         [InlineData("Text(DateTimeValue(\"March 10, 2023 5:30 PM\"), DateTimeFormat.UTC)", "Pacific Standard Time", "2023-03-11T01:30:00.000Z")]

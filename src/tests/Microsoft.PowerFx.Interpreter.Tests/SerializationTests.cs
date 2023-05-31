@@ -16,7 +16,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
-    public class SerializationTests : PowerFxTest
+    public class SerializationTests
     {
         [Fact]
         public void DateTimeSerializationTests()

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class FunctionCompilationTests : PowerFxTest
+    public class FunctionCompilationTests
     {
         [Theory]
         [InlineData("Switch(A, 2, \"two\", \"other\")")]

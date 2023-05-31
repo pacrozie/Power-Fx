@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class CustomFunctions : PowerFxTest
+    public class CustomFunctions
     {
         public class CustomFunctionError : ReflectionFunction
         {

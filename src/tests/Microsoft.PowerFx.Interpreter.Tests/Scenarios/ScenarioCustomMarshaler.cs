@@ -12,7 +12,7 @@ using Xunit;
 namespace Microsoft.PowerFx.Interpreter.Tests
 {
     // Demonstrate custom marshaler with attributes
-    public class ScenarioCustomMarshaller : PowerFxTest
+    public class ScenarioCustomMarshaller
     {
         private class TestObj
         {

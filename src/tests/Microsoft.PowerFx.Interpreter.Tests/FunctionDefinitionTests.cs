@@ -13,7 +13,7 @@ using static Microsoft.PowerFx.Functions.Library;
 
 namespace Microsoft.PowerFx.Tests
 {
-    public class FunctionDefinitionTests : PowerFxTest
+    public class FunctionDefinitionTests
     {
         [Fact]
         public void TabularOverloadListIsOverloadOfSingleFunction()
