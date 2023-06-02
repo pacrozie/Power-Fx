@@ -54,7 +54,7 @@ Error({Kind:ErrorKind.Div0})
 "truefalse"
 
 // ******** PARAMETERS OF ALL DATATYPES: Integer, String, Decimal, Null, Negative, Boolean and Function ********
-
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "174Jane4,678Doe-1false3"
 >> Concatenate(174,"Jane",4.678,Blank(),"Doe",-1,false,Len("abc"))
 "174Jane4.678Doe-1false3"
 

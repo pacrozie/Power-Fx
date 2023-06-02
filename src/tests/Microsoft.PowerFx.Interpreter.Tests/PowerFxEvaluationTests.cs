@@ -372,7 +372,14 @@ namespace Microsoft.PowerFx.Interpreter.Tests
                 try
                 {
                     // Serialization test. Serialized expression must produce an identical result.
-                    newValueDeserialized = await engine.EvalAsync(sb.ToString(), CancellationToken.None, options, runtimeConfig: runtimeConfig).ConfigureAwait(false);
+                    RuntimeConfig runtimeConfig1 = new RuntimeConfig(symbolValues);
+
+                    if (iSetup.TimeZoneInfo != null)
+                    {
+                        runtimeConfig1.AddService(iSetup.TimeZoneInfo);
+                    }
+                    
+                    newValueDeserialized = await engine.EvalAsync(sb.ToString(), CancellationToken.None, iSetup.Flags.ToParserOptions(new CultureInfo("en-US")), runtimeConfig: runtimeConfig1).ConfigureAwait(false);
                 }
                 catch (InvalidOperationException e)
                 {

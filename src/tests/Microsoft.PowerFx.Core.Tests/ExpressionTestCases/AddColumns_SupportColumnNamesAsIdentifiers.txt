@@ -3,6 +3,7 @@
 >> AddColumns([1,2,3,4,5], Double, Value * 2)
 Table({Double:2,Value:1},{Double:4,Value:2},{Double:6,Value:3},{Double:8,Value:4},{Double:10,Value:5})
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Warning 24-29: Une colonne nommée 'Value' existe déjà.|Error 0-41: La fonction 'AddColumns' contient des arguments non valides.
 >> AddColumns([1,2,3,4,5], Value, Value * 2)
 Errors: Warning 24-29: A column named 'Value' already exists.|Error 0-41: The function 'AddColumns' has some invalid arguments.
 
@@ -24,6 +25,7 @@ Blank()
 >> AddColumns(Table({a: 1}, {a: 2}), b, a * a * a)
 Table({a:1,b:1},{a:2,b:8})
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 56-57: Le nom n’est pas valide. « b » n’est pas reconnu.|Error 57-59: Utilisation non valide de « . »|Error 0-71: La fonction 'AddColumns' contient des arguments non valides.
 >> AddColumns(Table({a: 1, b: {c: 3}}, {a: 2, b: {c: 4}}), b.d, a * a * a)
 Errors: Error 56-57: Name isn't valid. 'b' isn't recognized.|Error 57-59: Invalid use of '.'|Error 0-71: The function 'AddColumns' has some invalid arguments.
 
@@ -33,6 +35,7 @@ Table({a:1,b:{c:3},'b.d':1},{a:2,b:{c:4},'b.d':8})
 >> AddColumns(Table({a: 1, b: {c: 3}}, {a: 2, b: {c: 4}}), 'b d', a * a * a)
 Table({a:1,b:{c:3},'b d':1},{a:2,b:{c:4},'b d':8})
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 37-38: Le nom n’est pas valide. « c » n’est pas reconnu.|Error 0-39: La fonction 'AddColumns' contient des arguments non valides.
 >> AddColumns(Table({a: 1}, {a: 2}), b, c)
 Errors: Error 37-38: Name isn't valid. 'c' isn't recognized.|Error 0-39: The function 'AddColumns' has some invalid arguments.
 
@@ -45,9 +48,11 @@ Table({Value:1,e:15},{Value:2,e:30})
 >> AddColumns([1,2,3], sq, Value * Value, cu, Value * Value * Value)
 Table({Value:1,cu:1,sq:1},{Value:2,cu:8,sq:4},{Value:3,cu:27,sq:9})
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 43-45: Le nom n’est pas valide. « sq » n’est pas reconnu.
 >> AddColumns([1,2,3], sq, Value * Value, cu, sq * Value)
 Errors: Error 43-45: Name isn't valid. 'sq' isn't recognized.
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 21-22: Le nom n’est pas valide. « _ » n’est pas reconnu.|Error 25-26: Le nom n’est pas valide. « _ » n’est pas reconnu.
 >> AddColumns([1,2], _, _ * _)
 Errors: Error 21-22: Name isn't valid. '_' isn't recognized.|Error 25-26: Name isn't valid. '_' isn't recognized.
 
@@ -57,5 +62,6 @@ Table({Value:1,_:1},{Value:2,_:4})
 >> AddColumns([1,2], z, Blank())
 Table({Value:1,z:Blank()},{Value:2,z:Blank()})
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 18-19: Nom de l’identificateur attendu|Error 0-35: La fonction 'AddColumns' contient des arguments non valides.
 >> AddColumns([1,2], 3, Value * Value)
 Errors: Error 18-19: Expected identifier name|Error 0-35: The function 'AddColumns' has some invalid arguments.

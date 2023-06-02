@@ -23,40 +23,39 @@ namespace Microsoft.PowerFx.Core.Tests
 
             set
             {
-                if (Culture.NumberFormat.NumberDecimalSeparator == ",")
-                {
-                    Regex rex = new Regex(@"-?[0-9]+\.[0-9]", RegexOptions.IgnoreCase);
-                    _input = rex.Replace(value, m => m.Value.Replace(".", ","));
-                }
-                else
-                {
-                    _input = value;
-                }
+                OriginalInput = value;
+                _input = AdjustExpression(value);
             }
         }
 
-        private string _input;
+        private string AdjustExpression(string str)
+        {
+            // Basic replacements for numbers and comma/semincolon separators
+            // This is fine as expressions where this won't work will use #LOCALIZED_EXPRESSION
+            if (Culture.NumberFormat.NumberDecimalSeparator == ",")
+            {
+                str = str.Replace(";", ";;");
+                str = str.Replace(',', ';');
+
+                Regex rex = new Regex(@"-?\d+\.\d+", RegexOptions.IgnoreCase);
+                str = rex.Replace(str, m => m.Value.Replace(".", ","));
+            }
+
+            return str;
+        }
+
+        public void AppendInput(string str)
+        {
+            OriginalInput += str;
+            _input += AdjustExpression(str);
+        }
+
+        internal string _input;
+
+        public string OriginalInput;
 
         // Expected Result, indexed by runner name
-        public string Expected
-        {
-            get => _expected;
-
-            set
-            {
-                if (Culture.NumberFormat.NumberDecimalSeparator == ",")
-                {
-                    Regex rex = new Regex(@"-?[0-9]+\.[0-9]", RegexOptions.IgnoreCase);
-                    _expected = rex.Replace(value, m => m.Value.Replace(".", ","));
-                }
-                else
-                {
-                    _expected = value;
-                }
-            }
-        }
-
-        private string _expected;
+        public string Expected;
 
         // Location from source file. 
         public string SourceFile;
@@ -86,7 +85,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 {
                     Culture = new CultureInfo(_locale);
                     _cultureCache.Add(_locale, Culture);
-                }                
+                }
             }
         }
 
@@ -107,7 +106,7 @@ namespace Microsoft.PowerFx.Core.Tests
             OverrideFrom = $"{newTest.SourceFile}:{newTest.SourceLine}";
             Expected = newTest.Expected;
             SourceFile = newTest.SourceFile;
-            SourceLine = newTest.SourceLine;            
+            SourceLine = newTest.SourceLine;
         }
 
         // Uniquely identity this test case. 

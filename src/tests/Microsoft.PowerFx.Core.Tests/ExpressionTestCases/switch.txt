@@ -304,6 +304,7 @@ Error({Kind:ErrorKind.InvalidArgument})
 DateTime(2001,4,1,10,0,0,0)
 
 // Result of switch can't be consumed.
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 0-28: La fonction 'Abs' contient des arguments non valides.|Error 4-27: Type d’argument non valide (Void). Valeur Decimal attendue.
 >> Abs(Switch(1, 1, -2, {x:4}))
 Errors: Error 0-28: The function 'Abs' has some invalid arguments.|Error 4-27: Invalid argument type (Void). Expecting a Decimal value instead.
 

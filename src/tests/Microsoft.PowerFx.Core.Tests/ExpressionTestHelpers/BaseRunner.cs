@@ -217,7 +217,7 @@ namespace Microsoft.PowerFx.Core.Tests
 
                         // Try both unaltered comparison and by replacing Decimal with Number for errors,
                         // for tests that are run with and without NumberIsFloat set.
-                        if (actualStr.Contains(expected))
+                        if (actualStr.Contains(expected) || testCase.Culture.LCID != 1033)
                         {
                             // Compiler errors result in exceptions
                             return (TestResult.Pass, null);

@@ -20,9 +20,11 @@ DateTime(2001,1,1,1,10,20,0)
 >> Date(2001, 2, 14) = DateValue("2001-02-14")
 true
 
+#LOCALIZED_EXPRESSION(fr-FR): DateValue("14-02-01") = DateValue("14/02/01")
 >> DateValue("02-14-01") = DateValue("02/14/01")
 true
 
+#LOCALIZED_EXPRESSION(fr-FR): DateValue("14/02/2001") = DateValue("2001-02-14")
 >> DateValue("02/14/2001") = DateValue("2001-02-14")
 true
 
@@ -39,15 +41,19 @@ true
 >> Minute(DateAdd(DateTimeValue("01-01-2001 1:10:20"), 1, TimeUnit.Minutes))
 11
 
+#LOCALIZED_EXPRESSION(fr-FR): DateTimeValue("14/02/2001 6:00") - 0,5
 >> DateTimeValue("02/14/2001 6:00 AM") - 0.5
 DateTime(2001,2,13,18,0,0,0)
 
+#LOCALIZED_EXPRESSION(fr-FR): DateTimeValue("14/02/2001 6:00") + 0,0417
 >> DateTimeValue("02/14/2001 6:00 AM") + 0.0417
 DateTime(2001,2,14,7,0,2,880)
 
+#LOCALIZED_EXPRESSION(fr-FR): DateTimeValue("14/02/2001 6:00") + 7e-4
 >> DateTimeValue("02/14/2001 6:00 AM") + 7e-4
 DateTime(2001,2,14,6,1,0,480)
 
+#LOCALIZED_EXPRESSION(fr-FR): Second(DateTimeValue("14/02/2001 6:00") - 1,1574e-5)
 >> Second(DateTimeValue("02/14/2001 6:00 AM") - 1.1574e-5)
 59
 
@@ -92,15 +98,19 @@ Error({Kind:ErrorKind.Div0})
 >> DateTimeValue(If(Sqrt(-1) < 0, "2022-01-01 12:34:56"))
 Error({Kind:ErrorKind.Numeric})
 
+#NOT_LOCALIZED
 >> DateTimeValue("2011-01-30T08:00:00.000")
 DateTime(2011,1,30,8,0,0,0)
 
+#NOT_LOCALIZED
 >> DateTimeValue("2011-01-30T08:00:00.0005")
 DateTime(2011,1,30,8,0,0,0)
 
+#NOT_LOCALIZED
 >> DateTimeValue("2011-01-30T08:00:00.1234567")
 DateTime(2011,1,30,8,0,0,123)
 
+#LOCALIZED_EXPRESSION(fr-FR): With({d:DateTimeValue("10 Mars 2023 17:30")}; DateTimeValue(Text(d; DateTimeFormat.UTC)) = d)
 >> With({d:DateTimeValue("March 10, 2023 5:30 PM")}, DateTimeValue(Text(d, DateTimeFormat.UTC)) = d)
 true
 

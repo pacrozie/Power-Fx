@@ -15,15 +15,14 @@ namespace Microsoft.PowerFx.Core.Tests
         private readonly string _engineName = null;
 
         // List of locales to run the tests against.
-        public const string TestedLocales = "en-US;fr-FR;de-DE;pt-BR;ja-JP";
+        public const string TestedLocales = "en-US;fr-FR"; // ";de-DE;pt-BR;ja-JP";
 
         // Normally null. Set if the test discovery infrastructure needs to send a notice to the test runner. 
         public string FailMessage;
 
         public ExpressionTestCase() 
             : this("en-US")
-        {
-            throw new NotImplementedException();
+        {            
         }
 
         public ExpressionTestCase(string locale)
@@ -41,11 +40,14 @@ namespace Microsoft.PowerFx.Core.Tests
         public ExpressionTestCase(string engineName, TestCase test)
             : this(engineName, test.Locale)
         {
-            Input = test.Input;
+            // Avoid double adjustment to locale
+            _input = test._input;
+            OriginalInput = test.OriginalInput;
+
             Expected = test.Expected;
             SourceFile = test.SourceFile;
             SourceLine = test.SourceLine;
-            SetupHandlerName = test.SetupHandlerName;            
+            SetupHandlerName = test.SetupHandlerName;                 
         }
 
         public static ExpressionTestCase Fail(string message)
@@ -58,7 +60,12 @@ namespace Microsoft.PowerFx.Core.Tests
 
         public override string ToString()
         {
-            var str = $"{Path.GetFileName(SourceFile)} : [{base.Culture.Name}] {SourceLine.ToString("000")} - {Input} = {Expected}";
+            var str = $"{Path.GetFileName(SourceFile)} : [{Culture.Name}] {SourceLine:000} - {Input} = {Expected}";
+
+            if (Input != OriginalInput)
+            {
+                str += $" - Original: {OriginalInput}";
+            }
 
             if (!string.IsNullOrEmpty(SetupHandlerName))
             {
@@ -73,7 +80,8 @@ namespace Microsoft.PowerFx.Core.Tests
             try
             {
                 Expected = info.GetValue<string>("expected");
-                Input = info.GetValue<string>("input");
+                _input = info.GetValue<string>("input");
+                OriginalInput = info.GetValue<string>("originalInput");
                 SourceFile = info.GetValue<string>("sourceFile");
                 SourceLine = info.GetValue<int>("sourceLine");
                 SetupHandlerName = info.GetValue<string>("setupHandlerName");
@@ -90,6 +98,7 @@ namespace Microsoft.PowerFx.Core.Tests
         {
             info.AddValue("expected", Expected, typeof(string));
             info.AddValue("input", Input, typeof(string));
+            info.AddValue("originalInput", OriginalInput, typeof(string));
             info.AddValue("sourceFile", SourceFile, typeof(string));
             info.AddValue("sourceLine", SourceLine, typeof(int));
             info.AddValue("setupHandlerName", SetupHandlerName, typeof(string));

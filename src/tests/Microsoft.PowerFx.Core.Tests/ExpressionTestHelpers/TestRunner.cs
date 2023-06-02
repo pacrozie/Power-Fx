@@ -6,11 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.PowerFx.Core.Parser;
-using Microsoft.PowerFx.Syntax;
-using Microsoft.PowerFx.Types;
 
 namespace Microsoft.PowerFx.Core.Tests
 {
@@ -179,6 +176,25 @@ namespace Microsoft.PowerFx.Core.Tests
             }
         }
 
+        private static bool TryParsePerLocaleDirective(string line, string directive, out string locale, out string overridenResult)
+        {
+            Regex rex = new Regex($@"^{directive}\((?<locale>[^)]+)\): (?<result>.*)$");
+            Match m = rex.Match(line);
+
+            if (m.Success)
+            {
+                locale = m.Groups[1].Value;
+                overridenResult = m.Groups[2].Value;
+                return true;
+            }
+            else
+            {
+                locale = null;
+                overridenResult = null;
+                return false;
+            }
+        }
+
         public void AddFile(Dictionary<string, bool> setup, string thisFile, string locale)
         {
             thisFile = Path.GetFullPath(thisFile, TestRoot);
@@ -263,11 +279,14 @@ namespace Microsoft.PowerFx.Core.Tests
                 {
                     return;
                 }
-            }        
+            }
 
             fileSetup = string.Join(",", fileSetupDict.Select(i => (i.Value ? string.Empty : "disable:") + i.Key));
 
             List<string> duplicateTests = new List<string>();
+            Dictionary<string, string> localizedResults = null;
+            Dictionary<string, string> localizedExpressions = null;
+            bool notLocalized = false;
 
             while (true)
             {
@@ -283,6 +302,26 @@ namespace Microsoft.PowerFx.Core.Tests
                     continue;
                 }
 
+                if (line.Trim() == "#NOT_LOCALIZED")
+                {
+                    notLocalized = true;
+                    continue;
+                }
+
+                if (TryParsePerLocaleDirective(line, "#LOCALIZED_EXPRESSION", out string locale1, out string overridenExpression))
+                {
+                    localizedExpressions ??= new Dictionary<string, string>();
+                    localizedExpressions[locale1] = overridenExpression.Trim();
+                    continue;
+                }
+
+                if (TryParsePerLocaleDirective(line, "#LOCALIZED_EXPRESSION_RESULT", out string locale2, out string overridenResult))
+                {
+                    localizedResults ??= new Dictionary<string, string>();
+                    localizedResults[locale2] = overridenResult.Trim();
+                    continue;
+                }
+
                 if (line.StartsWith(">>"))
                 {
                     if (test != null)
@@ -292,12 +331,29 @@ namespace Microsoft.PowerFx.Core.Tests
 
                     line = line.Substring(2).Trim();
                     test = new TestCase(locale)
-                    {
-                        Input = line,
+                    {                        
                         SourceLine = i + 1, // 1-based
                         SourceFile = thisFile,
-                        SetupHandlerName = fileSetup,                        
+                        SetupHandlerName = fileSetup,
                     };
+
+                    if (notLocalized)
+                    {
+                        test._input = line;
+                        test.OriginalInput = line;
+                        continue;
+                    }
+
+                    if (localizedExpressions == null || !localizedExpressions.ContainsKey(test.Locale))
+                    {
+                        test.Input = line;
+                    }
+                    else
+                    {
+                        test._input = localizedExpressions[test.Locale];
+                        test.OriginalInput = line;
+                    }
+
                     continue;
                 }
 
@@ -306,7 +362,7 @@ namespace Microsoft.PowerFx.Core.Tests
                     // If it's indented, then part of previous line. 
                     if (line[0] == ' ')
                     {
-                        test.Input += "\r\n" + line;
+                        test.AppendInput("\r\n" + line);
                         continue;
                     }
 
@@ -318,14 +374,14 @@ namespace Microsoft.PowerFx.Core.Tests
                         throw ParseError(i, $"Multiline comments aren't supported in output");
                     }
 
-                    test.Expected = line.Trim();                    
+                    test.Expected = localizedResults == null || !localizedResults.ContainsKey(test.Locale) ? line.Trim() : localizedResults[test.Locale];
 
                     var key = test.GetUniqueId(fileOveride);
                     if (_keyToTests.TryGetValue(key, out var existingTest))
                     {
                         // Must be in different sources
-                        if (existingTest.SourceFile == test.SourceFile && 
-                            existingTest.SetupHandlerName == test.SetupHandlerName && 
+                        if (existingTest.SourceFile == test.SourceFile &&
+                            existingTest.SetupHandlerName == test.SetupHandlerName &&
                             existingTest.Locale == test.Locale)
                         {
                             duplicateTests.Add($"Duplicate test cases in {Path.GetFileName(test.SourceFile)} on line {test.SourceLine} and {existingTest.SourceLine}");
@@ -341,9 +397,12 @@ namespace Microsoft.PowerFx.Core.Tests
                         Tests.Add(test);
 
                         _keyToTests[key] = test;
-                    }                    
+                    }
 
                     test = null;
+                    localizedResults = null;
+                    localizedExpressions = null;
+                    notLocalized = false;
                 }
                 else
                 {
