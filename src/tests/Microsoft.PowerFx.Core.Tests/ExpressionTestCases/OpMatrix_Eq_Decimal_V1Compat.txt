@@ -151,16 +151,20 @@ false
 >> Float(16) = ParseJSON("16")
 true
 
+#NOT_LOCALIZED
 >> Float(16) = ParseJSON("16.0")
 true
 
+#NOT_LOCALIZED
 >> Float(16) = ParseJSON("1.6e1")
 true
 
+#NOT_LOCALIZED
 // comparison done in floating point, decimal rounded
 >> Float(16) = ParseJSON("16.0000000000000000000002")
 true
 
+#NOT_LOCALIZED
 // comparison done in floating point, decimal rounded
 >> Float("16.0000000000000000000002") = ParseJSON("16.0000000000000000000002")
 true
@@ -253,9 +257,11 @@ false
 >> "16" = ParseJSON("18")
 false
 
+#NOT_LOCALIZED
 >> "16" = ParseJSON("16.0")
 false
 
+#NOT_LOCALIZED
 >> "16" = ParseJSON("1.6e1")
 false
 
@@ -565,6 +571,7 @@ false
 >> DateTime(2000,1,1,12,0,0) = ParseJSON("2")
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> DateTime(2000,1,1,12,0,0) = ParseJSON("2.5")
 Error({Kind:ErrorKind.InvalidArgument})
 
@@ -633,6 +640,7 @@ false
 >> Time(3,0,0) = ParseJSON("2")
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> Time(3,0,0) = ParseJSON("0.125")
 Error({Kind:ErrorKind.InvalidArgument})
 
@@ -704,26 +712,32 @@ true
 >> Decimal("16.000000000000000000000002") = ParseJSON("1e100")
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> Decimal("16.000000000000000000000002") = ParseJSON("16.000000000000000000000002")
 true
 
+#NOT_LOCALIZED
 >> Decimal("16.000000000000000000000002") = ParseJSON("16.000000000000000000000001")
 false
 
 >> Decimal(16) = ParseJSON("16")
 true
 
+#NOT_LOCALIZED
 >> Decimal(16) = ParseJSON("16.0")
 true
 
+#NOT_LOCALIZED
 >> Decimal(16) = ParseJSON("1.6e1")
 true
 
 // Untyped
 
+#NOT_LOCALIZED
 >> ParseJSON("16.00000000000000000000001") = Float(2)
 false
 
+#NOT_LOCALIZED
 // comparisons with float are done in float
 >> ParseJSON("16.00000000000000000000001") = Float(16)
 true
@@ -731,15 +745,19 @@ true
 >> ParseJSON("1e100") = Float(2)
 false
 
+#NOT_LOCALIZED
 >> ParseJSON("16.00000000000000000000001") = "2"
 false
 
+#NOT_LOCALIZED
 >> ParseJSON("16.00000000000000000000001") = "16"
 false
 
+#NOT_LOCALIZED
 >> ParseJSON("16.00000000000000000000001") =  "16.00000000000000000000001"
 true
 
+#NOT_LOCALIZED
 >> ParseJSON("16.00000000000000000000001") =  16 + ".00000000000000000000001"
 true
 
@@ -749,9 +767,11 @@ true
 >> ParseJSON("1e100") = "2"
 false
 
+#NOT_LOCALIZED
 >> ParseJSON("16.000000000000000000000001") = true
 true
 
+#NOT_LOCALIZED
 >> ParseJSON("1.000000000000000000000001") = true
 true
 
@@ -782,6 +802,7 @@ false
 >> ParseJSON("1e100") = true
 true
 
+#NOT_LOCALIZED
 >> ParseJSON("16.000000000000000000000001") = Blank()
 false
 
@@ -797,6 +818,7 @@ false
 >> ParseJSON("2") = Date(1900,1,1)
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> ParseJSON("16.0000000000000000000001") = Date(1900,1,15)
 Error({Kind:ErrorKind.InvalidArgument})
 
@@ -815,9 +837,11 @@ Error({Kind:ErrorKind.InvalidArgument})
 >> ParseJSON("null") = Date(1900,1,15)
 false
 
+#NOT_LOCALIZED
 >> ParseJSON("16.500000000000000000001") = DateTime(1900,1,15,12,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> ParseJSON("16.5") = DateTime(1900,1,15,12,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
@@ -830,6 +854,7 @@ false
 >> ParseJSON("1e100") = DateTime(1900,1,7,12,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> ParseJSON("16.000000000000000000001") = Time(12,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
@@ -842,30 +867,36 @@ true
 >> ParseJSON("""12:00:02""") = Time(12,0,1)
 false
 
+#NOT_LOCALIZED
 >> ParseJSON("0.250000000000000000000001") = Time(6,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> ParseJSON("0.25") = Time(6,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
 >> ParseJSON("1e100") = Time(12,0,0)
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> ParseJSON("2.000000000000000000000000001") = Decimal("2.000000000000000000000000001")
 true
 
 >> ParseJSON("1e100") = Decimal("2.000000000000000000000000001")
 Error({Kind:ErrorKind.InvalidArgument})
 
+#NOT_LOCALIZED
 >> ParseJSON("2.000000000000000000000000001") = ParseJSON("2.000000000000000000000000001")
 Errors: Error 43-44: Incompatible types for comparison. These types can't be compared: UntypedObject, UntypedObject.
 
+#NOT_LOCALIZED
 >> ParseJSON("2.000000000000000000000002") = ParseJSON("2")
 Errors: Error 40-41: Incompatible types for comparison. These types can't be compared: UntypedObject, UntypedObject.
 
 >> ParseJSON("1e100") = ParseJSON("2")
 Errors: Error 19-20: Incompatible types for comparison. These types can't be compared: UntypedObject, UntypedObject.
 
+#NOT_LOCALIZED
 >> ParseJSON("16.000000000000000000000002") = ParseJSON("1e100")
 Errors: Error 41-42: Incompatible types for comparison. These types can't be compared: UntypedObject, UntypedObject.
 

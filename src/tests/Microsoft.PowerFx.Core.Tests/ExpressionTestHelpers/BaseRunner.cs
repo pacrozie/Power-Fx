@@ -163,7 +163,7 @@ namespace Microsoft.PowerFx.Core.Tests
                 SourceLine = testCase.SourceLine,
                 SourceFile = testCase.SourceFile,
                 Input = $"IsError({testCase.Input})",
-                Expected = "true"                
+                Expected = "true"
             };
 
             var (result, msg) = await RunAsync2(case2).ConfigureAwait(false);
@@ -212,17 +212,31 @@ namespace Microsoft.PowerFx.Core.Tests
                     var expectedCompilerError = expected.StartsWith("Errors: Error") || expected.StartsWith("Errors: Warning"); // $$$ Match error message. 
                     if (expectedCompilerError)
                     {
-                        var msg = $"Errors: " + string.Join("\r\n", runResult.Errors.Select(err => err.ToString()).ToArray());
-                        var actualStr = msg.Replace("\r\n", "|").Replace("\n", "|");
+                        string msg;
+
+                        // 1033 is en-US
+                        if (testCase.Culture.LCID == 1033)
+                        {
+                            msg = "Errors: " + string.Join("\r\n", runResult.Errors.Select(err => err.ToString()).ToArray());
+                        }
+                        else
+                        {
+                            // For localized test cases, only use the MessageKey, not the full message (which is localized).
+                            msg = "Errors: " + string.Join("\r\n", runResult.Errors.Select(err => err.MessageKey).ToArray());
+
+                            return (TestResult.Skip, "Skipping localized error test case");
+                        }
+
+                        string actualStr = msg.Replace("\r\n", "|").Replace("\n", "|");
 
                         // Try both unaltered comparison and by replacing Decimal with Number for errors,
                         // for tests that are run with and without NumberIsFloat set.
-                        if (actualStr.Contains(expected) || testCase.Culture.LCID != 1033)
+                        if (actualStr.Contains(expected))
                         {
                             // Compiler errors result in exceptions
                             return (TestResult.Pass, null);
                         }
-                        else if (NumberIsFloat && expected.StartsWith("Errors:") && 
+                        else if (NumberIsFloat && expected.StartsWith("Errors:") &&
                                  actualStr.Contains(Regex.Replace(expected, "(?<!Number,)(\\s|'|\\()Decimal(\\s|'|,|\\.|\\))", "$1Number$2")))
                         {
                             // Compiler errors result in exceptions
@@ -314,7 +328,7 @@ namespace Microsoft.PowerFx.Core.Tests
                     // strict compare binary decimal values after being parsed (for printing differences)
                     else if (originalResult is DecimalValue dec && decimal.Parse(expected, System.Globalization.NumberStyles.Float) == dec.Value)
                     {
-                            return (TestResult.Pass, null);
+                        return (TestResult.Pass, null);
                     }
                 }
 

@@ -33,6 +33,7 @@
 >> Lower(12345)
 "12345"
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "-123,45"
 >> Lower(-123.45)
 "-123.45"
 
@@ -67,16 +68,19 @@ Error({Kind:ErrorKind.Div0})
 
 // ******** FUNCTION VALUE AS PARAMETERS ********
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "12,000"
 >> Lower(Text(12, "#.000"))
 "12.000"
 
 >> Lower(Concatenate("Jane", "Doe"))
 "janedoe"
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "23/12/1976"
 >> Lower(Date(1976, 12,23))
 "12/23/1976"
 
 // ******* ALL THE PARAMETERS TYPE *******
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "janesmith67890true12,00023/12/1976"
 >> Lower("Jane" & "Smith" & 67890 & true & Blank() & Text(12, "#.000") & Date(1976, 12,23))
 "janesmith67890true12.00012/23/1976"

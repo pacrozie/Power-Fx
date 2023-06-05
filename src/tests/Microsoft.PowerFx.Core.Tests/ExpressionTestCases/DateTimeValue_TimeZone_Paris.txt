@@ -18,9 +18,11 @@ Error({Kind:ErrorKind.BadLanguageCode})
 // In Paris timezoneinfo - which does not do daylight savings at the same date, we get 3:00am.
 // https://www.timeanddate.com/time/change/usa/seattle
 // https://www.timeanddate.com/time/change/france/paris
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "13/03/2022 03:00"
 >> Text(DateAdd(DateTime(2022,3,13,1,0,0), 2, TimeUnit.Hours))
 "3/13/2022 3:00 AM"
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "27/03/2022 04:00"
 >> Text(DateAdd(DateTime(2022,3,27,1,0,0), 2, TimeUnit.Hours))
 "3/27/2022 4:00 AM"
 

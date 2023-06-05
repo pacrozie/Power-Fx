@@ -192,6 +192,7 @@ Error({Kind:ErrorKind.InvalidArgument})
 "false"
 
 //String to Time Coercion
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "12:35"
 >> If(false,"Hello",TimeValue("12:35:55"))
 "12:35 PM"
 

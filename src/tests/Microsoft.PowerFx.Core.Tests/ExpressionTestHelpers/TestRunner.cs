@@ -214,6 +214,24 @@ namespace Microsoft.PowerFx.Core.Tests
 
             var i = -1;
 
+            /*
+                 TXT files maybe contain directives which are of two forms
+
+                 - GLOBAL directives, that apply to all tests in the file
+                   These directives are at the top of the file
+                   - #SETUP, used to define features (or their absence with 'disable:' prefix)
+                   - #OVERRIDE, used to override a complete file
+                   - #DISABLE, used to disable a complete file
+                   - #NO_HEADER, to specify no global header is used
+
+                 - LOCAL directives, that apply to a single test
+                   These directives are placed before the '>>' line defining the test in English-US
+                   - #NOT_LOCALIZED, to specify that a specific expression isn't localized (= not parsed to identify numbers, comma, etc)
+                   - #LOCALIZED_EXPRESSION(locale), to specify the specific expression to execute for a given locale
+                   - #LOCALIZED_EXPRESSION_RESULT(locale), to specify the expected result for a given locale
+                   - #LOCALIZED_EXPRESSION_MSGKEYS, when an error is expected, to specify the expected message keys
+            */
+
             while (i < lines.Length - 1)
             {
                 var line = lines[i + 1];
@@ -225,6 +243,11 @@ namespace Microsoft.PowerFx.Core.Tests
 
                 if (line.Length > 1 && line[0] == '#')
                 {
+                    if (TryParseDirective(line, "#NO_HEADER", out string _))
+                    {
+                        break;
+                    }
+
                     if (TryParseDirective(line, "#DISABLE:", out var fileDisable))
                     {
                         DisabledFiles.Add(fileDisable);
@@ -287,6 +310,7 @@ namespace Microsoft.PowerFx.Core.Tests
             Dictionary<string, string> localizedResults = null;
             Dictionary<string, string> localizedExpressions = null;
             bool notLocalized = false;
+            string msgKeys = null;
 
             while (true)
             {
@@ -297,7 +321,8 @@ namespace Microsoft.PowerFx.Core.Tests
                 }
 
                 var line = lines[i];
-                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("//"))
+
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.Trim() == "#NO_HEADER")
                 {
                     continue;
                 }
@@ -312,6 +337,11 @@ namespace Microsoft.PowerFx.Core.Tests
                 {
                     localizedExpressions ??= new Dictionary<string, string>();
                     localizedExpressions[locale1] = overridenExpression.Trim();
+                    continue;
+                }
+
+                if (TryParseDirective(line, "#LOCALIZED_EXPRESSION_MSGKEYS", out msgKeys))
+                {
                     continue;
                 }
 
@@ -374,7 +404,7 @@ namespace Microsoft.PowerFx.Core.Tests
                         throw ParseError(i, $"Multiline comments aren't supported in output");
                     }
 
-                    test.Expected = localizedResults == null || !localizedResults.ContainsKey(test.Locale) ? line.Trim() : localizedResults[test.Locale];
+                    test.Expected = msgKeys ?? (localizedResults == null || !localizedResults.ContainsKey(test.Locale) ? line.Trim() : localizedResults[test.Locale]);
 
                     var key = test.GetUniqueId(fileOveride);
                     if (_keyToTests.TryGetValue(key, out var existingTest))
@@ -403,6 +433,7 @@ namespace Microsoft.PowerFx.Core.Tests
                     localizedResults = null;
                     localizedExpressions = null;
                     notLocalized = false;
+                    msgKeys = null;
                 }
                 else
                 {

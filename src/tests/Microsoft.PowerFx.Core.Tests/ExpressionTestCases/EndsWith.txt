@@ -123,10 +123,9 @@ true
 false
 
 //Decimal numbers
+#LOCALIZED_EXPRESSION(fr-FR): EndsWith(65,78;",78")
 >> EndsWith(65.78,".78")
 true
-
-
 
 // ******** NULL and ERROR PARAMETERS ********
 

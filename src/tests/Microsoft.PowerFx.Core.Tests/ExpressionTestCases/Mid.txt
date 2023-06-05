@@ -98,6 +98,7 @@
 "2345"
 
 //Number passed as a string parameter
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): ",45"
 >> Mid("-123.45",5,3)
 ".45"
 
@@ -189,6 +190,7 @@ Error(Table({Kind:ErrorKind.InvalidArgument},{Kind:ErrorKind.InvalidArgument}))
 "eDo"
 
 //Excel returns 17
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "12/197"
 >> Mid(Date(1976, 12,23),4,6)
 "23/197"
 

@@ -17,6 +17,7 @@
 >> Left(12345,2)
 "12"
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "-123,"
 >> Left(-123.45,5)
 "-123."
 
@@ -96,12 +97,14 @@ Error({Kind:ErrorKind.Div0})
 >> Left(Text(100), If(true, 1, 0))
 "1"
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "12,00"
 >> Left(Text(12, "#.000"),5)
 "12.00"
 
 >> Left(Concatenate("Jane", "Doe"),6)
 "JaneDo"
 
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "23/1"
 >> Left(Date(1976, 12,23),4)
 "12/2"
 

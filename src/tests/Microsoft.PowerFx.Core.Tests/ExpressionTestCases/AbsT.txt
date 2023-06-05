@@ -9,7 +9,7 @@ Table({Value:1},{Value:0})
 >> Abs(["10", "-10.123"])
 Table({Value:10},{Value:10.123})
 
-#LOCALIZED_EXPRESSION_RESULT(fr-FR): Errors: Error 0-7: La fonction 'Abs' contient des arguments non valides.|Error 4-6: Schéma non valide. Table à colonne unique attendue.
+#LOCALIZED_EXPRESSION_MSGKEYS: Errors: ErrInvalidArgs_Func|ErrInvalidSchemaNeedCol
 >> Abs([])
 Errors: Error 0-7: The function 'Abs' has some invalid arguments.|Error 4-6: Invalid schema, expected a one-column table.
 

@@ -1,2 +1,5 @@
+#NO_HEADER
+
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): "fr-FR"
 >> Language()
 "en-US"

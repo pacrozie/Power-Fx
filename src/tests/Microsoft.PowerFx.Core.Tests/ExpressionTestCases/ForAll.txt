@@ -97,9 +97,13 @@ If(true, {test:1}, "Mismatched args (result of the expression can't be used).")
 >> ForAll([1,2,3] As p, Switch(p.Value, 1, {a:1}, 2, [{a:2}], 3, "Hello"))
 If(true, {test:1}, "Mismatched args (result of the expression can't be used).")
 
+#LOCALIZED_EXPRESSION(fr-FR): ForAll(ParseJSON("[1,2]"); If(Value(ThisRecord) = 1; Value(ThisRecord) * 2; {Result: Value(ThisRecord)}))
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): If(true, {test:1}, "Il existe une erreur dans cette formule")
 >> ForAll(ParseJSON("[1,2]"), If(Value(ThisRecord) = 1, Value(ThisRecord) * 2, {Result: Value(ThisRecord)}))
 If(true, {test:1}, "Mismatched args (result of the expression can't be used).")
 
+#LOCALIZED_EXPRESSION(fr-FR): ForAll(ParseJSON("[1,2,3]"); Switch(Value(ThisRecord); 1; {a:1}; 2, [{a:2}]; 3; "Hello"))
+#LOCALIZED_EXPRESSION_RESULT(fr-FR): If(true, {test:1}, "Il existe une erreur dans cette formule")
 >> ForAll(ParseJSON("[1,2,3]"), Switch(Value(ThisRecord), 1, {a:1}, 2, [{a:2}], 3, "Hello"))
 If(true, {test:1}, "Mismatched args (result of the expression can't be used).")
 

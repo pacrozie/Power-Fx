@@ -184,6 +184,7 @@ false
 >> IfError(Error({Kind: ErrorKind.Validation}), Date(2000,12,11))
 Date(2000,12,11)
 
+#LOCALIZED_EXPRESSION(fr-FR): IfError(Error({Kind: 11}); DateValue("12 Juin 2022"))
 >> IfError(Error({Kind: 11}), DateValue("12 June, 2022"))
 Date(2022,6,12)
 
