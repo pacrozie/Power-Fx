@@ -14,6 +14,16 @@ namespace Microsoft.PowerFx.Intellisense
 
         internal SuggestionMethod SuggestionMethod;
 
+        public ConnectorSuggestions(ErrorValue error)
+        {
+            Suggestions = null;            
+        }
+
+        public ConnectorSuggestions(IReadOnlyList<ConnectorSuggestion> suggestions)
+        {
+            Suggestions = suggestions;            
+        }
+
         internal ConnectorSuggestions(SuggestionMethod suggestionMethod, IReadOnlyList<ConnectorSuggestion> suggestions, FormulaType formulaType = null)
         {
             SuggestionMethod = suggestionMethod;
